@@ -12,8 +12,5 @@ function startQuiz() {
 
 function startTimer() {
     var timeLeft = 60;
-    timer = setInterval() {
-        timeLeft--;
-        timerEl.textContent = timeLeft;
-    };
+    
 }
