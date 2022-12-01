@@ -14,28 +14,44 @@
         <!-- link to high scores -->
         <div class="left stats">
             <a href="./highscores.html">
-               <button id="highscores-button">View Highscores</button> 
+                <button id="highscores-button">View Highscores</button>
             </a>
-            
+
         </div>
         <div class="right stats">
             <!-- timer countdown -->
-            <div id="timer"><h2>Seconds Left: 60</h2></div>
+            <h2>Seconds Left: </h2>
+            <div id="timer">30</div>
             <!-- counts the player's current score -->
-            <div id="score"><h2>Current Score: 0</h2></div>
+            <h2>Current Score: </h2>
+            <div id="score">0</div>
         </div>
     </div>
-    <div class="game">
+    <div class="main">
         <h1 id="name">Coding Quiz Game</h1>
-        <p id="instructions">Press start to start this quiz. Once started you will have 60 seconds to answer
-            the question presented. If
+        <p id="instructions">Press start to begin quiz. Once started you will have 30 seconds to answer
+            the questions presented. If
             the player answers the question correctly, the player will gain 10 points. If the player answers the
             question incorrectly, 5 seconds will be deducted from the time remaining. The game is over when the player
             has run out of time, or has answered all of the questions.</p>
-        <!-- starts the quiz -->
-        <button class="button" id="start-button">Start Quiz</button>
+            <!-- starts the quiz -->
+            <button class="button" id="start-button">Start Quiz</button>
+    </div>
+    <div class="main" id="quiz">
+        <div id="question"></div>
+        <div id="choices"></div>
     </div>
     <script src="./assets/script.js"></script>
 </body>
 
 </html>
+
+<!-- <div class="main" id="quiz">
+        <div id="question"></div>
+        <div id="choices">
+            <div class="choice" id="A" onclick="checkAnswer('A')"></div>
+            <div class="choice" id="B" onclick="checkAnswer('B')"></div>
+            <div class="choice" id="C" onclick="checkAnswer('C')"></div>
+            <div class="choice" id="D" onclick="checkAnswer('D')"></div>
+        </div>
+    </div> -->

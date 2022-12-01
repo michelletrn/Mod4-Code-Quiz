@@ -14,19 +14,27 @@ body {
 
 .right {
     padding-right: 60px;
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 200px;
 }
 
 .left {
     padding-left: 60px;
 }
 
-.game {
+.main {
     display: inline-flex;
     flex-direction: column;
     justify-content: center;
     padding: 25px;
     margin: 0% 10%;
 
+}
+
+#quiz {
+    display: none;
 }
 
 #name {
