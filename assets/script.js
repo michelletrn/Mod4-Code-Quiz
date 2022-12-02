@@ -6,7 +6,15 @@ var scoreEl = document.querySelector("#score");
 var title = document.querySelector("#name");
 var quizEl = document.querySelector("#quiz");
 var choices = document.querySelector("#choices");
-var question = document.querySelector("#question");
+
+var qPrompt = document.createElement('h3');
+quizEl.append(qPrompt);
+
+// var btnA = document.createElement('button');
+// var btnB = document.createElement('button');
+// var btnC = document.createElement('button');
+// var btnD = document.createElement('button');
+// choices.append(btn1, btn2, btn3, btn4);
 
 
 
@@ -41,8 +49,17 @@ function startQuiz() {
 }
 
 function renderQuestion() {
-    let q = questions[qIndex];
+    let q = questions[qIndex].question;
+    let c = questions[qIndex].choices;
+    let a = questions[qIndex].correct;
+    for (var i = 0; i < questions.length; i++) {
+        qPrompt.textContent = q;
+        quizEl.appendChild(qPrompt);
+    }
     console.log(q);
+    console.log(c);
+    console.log(a);
+
     // display question
 }
 
@@ -51,7 +68,7 @@ var qIndex = 0;
 let questions = [
     {
         question: "Which of the following is NOT a JavaScript data type?",
-        choice: ["a. string", "b. integer", "c. array", "d. flexbox"],
+        choices: ["a. string", "b. integer", "c. array", "d. flexbox"],
         correct: "d. flexbox"
     },{
         question: "Which of the following is the strict comparison operator?",
