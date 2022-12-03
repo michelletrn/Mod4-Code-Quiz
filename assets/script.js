@@ -68,15 +68,15 @@ let questions = [
     },{
         question: "Which of the following is the strict comparison operator?",
         choices: ["a. =","b. ==","c. ===","d .===="],
-        correct: "c. ==="
+        correct: "c"
     },{
         question: "What is the index of the 5th item in an array with 5 items?", 
         choices: ["a. [6]","b. [5]","c. [4]","d. [3]"],
-        correct: "c. [4]"
+        correct: "c"
     },{
         question: "What data type is enclosed in double or single quotes?",
         choices: ["a. string","b. array","c. list","d. function"],
-        correct: "a. string"
+        correct: "a"
     }
 ];
 
@@ -92,7 +92,7 @@ function checkAnswer(event) {
         result.textContent = "Correct!";
         console.log(event.target.value);
         console.log(questions[qIndex].correct);
-        qIndex += 1; //need to make a var for the question number
+        qIndex += 1;
         renderQuestion(qIndex);
     } else {
         result.textContent = "Incorrect!";
