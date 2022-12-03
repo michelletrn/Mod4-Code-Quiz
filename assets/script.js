@@ -1,30 +1,29 @@
 var startButton = document.querySelector("#start-button");
+var submitBtn = document.querySelector("#submit");
 var instructions = document.querySelector("#instructions");
 
+var main = document.querySelector("#main")
 var timerEl = document.querySelector("#timer");
 var scoreEl = document.querySelector("#score");
 var title = document.querySelector("#name");
-var quizEl = document.querySelector("#quiz");
-var choices = document.querySelector("#choices");
+var quizEl = document.querySelector("#quiz-page");
+var qPrompt = document.querySelector("#qPrompt");
+var result = document.querySelector("#result");
+var endPage = document.querySelector("#end-page");
+var player = document.querySelector("#player-name");
+var submitBtn = document.querySelector("#submit");
+var hsPage = document.querySelector("#highscore-page");
 
-var qPrompt = document.createElement('h3');
-quizEl.append(qPrompt);
-
-// var btnA = document.createElement('button');
-// var btnB = document.createElement('button');
-// var btnC = document.createElement('button');
-// var btnD = document.createElement('button');
-// choices.append(btn1, btn2, btn3, btn4);
-
-
-
-startButton.addEventListener('click', function(){
-    startTimer();
-    startQuiz();
-});
+var choiceBtns = document.querySelectorAll(".choice")
+var btn1 = document.querySelector("#A");
+var btn2 = document.querySelector("#B");
+var btn3 = document.querySelector("#C");
+var btn4 = document.querySelector("#D");
+var qIndex = 0; //each block in questions is a qIndex
+var timeLeft = 30; //CHANGE BACK TO 30
 
 function startTimer() {
-    var timeLeft = 30;
+    
     var timeInterval = setInterval(function(){
         timeLeft--;
         timerEl.textContent = timeLeft;
@@ -42,34 +41,30 @@ function startTimer() {
 }
 
 function startQuiz() {
-    instructions.remove();
-    startButton.remove();
-    title.remove();
-    renderQuestion();
+    main.style.display = "none";
+    renderQuestion(qIndex);
 }
 
-function renderQuestion() {
-    let q = questions[qIndex].question;
-    let c = questions[qIndex].choices;
-    let a = questions[qIndex].correct;
-    for (var i = 0; i < questions.length; i++) {
-        qPrompt.textContent = q;
-        quizEl.appendChild(qPrompt);
-    }
-    console.log(q);
-    console.log(c);
-    console.log(a);
+function renderQuestion(qIndex) {
+    qPrompt.textContent = questions[qIndex].question;
+    btn1.textContent = questions[qIndex].choices[0];
+    btn2.textContent = questions[qIndex].choices[1];
+    btn3.textContent = questions[qIndex].choices[2];
+    btn4.textContent = questions[qIndex].choices[3];
 
-    // display question
+    document.getElementById("choice-btns").style.display = "flex";
+    document.getElementById("choice-btns").style.flexDirection = "column";
 }
 
-var qIndex = 0;
+// function nextQuestion() {
+    
+// }
 
 let questions = [
     {
         question: "Which of the following is NOT a JavaScript data type?",
         choices: ["a. string", "b. integer", "c. array", "d. flexbox"],
-        correct: "d. flexbox"
+        correct: "d"
     },{
         question: "Which of the following is the strict comparison operator?",
         choices: ["a. =","b. ==","c. ===","d .===="],
@@ -83,16 +78,55 @@ let questions = [
         choices: ["a. string","b. array","c. list","d. function"],
         correct: "a. string"
     }
-]
+];
 
 
+function checkAnswer(event) {
+    event.preventDefault();
+    result.style = "display: block; text-align: center";
+    setInterval(function() {
+        result.style = "display: none";
+    }, 1500)
 
-// function endQuiz() {
+    if (event.target.value === questions[qIndex].correct) {
+        result.textContent = "Correct!";
+        console.log(event.target.value);
+        console.log(questions[qIndex].correct);
+        qIndex += 1; //need to make a var for the question number
+        renderQuestion(qIndex);
+    } else {
+        result.textContent = "Incorrect!";
+        timeLeft = timeLeft - 5;
+        qIndex += 1;
+        renderQuestion(qIndex);
+    }
+    if (qIndex < questions.length) {
+        renderQuestion(qIndex);
+    }
+    
+}
 
-// }
+function endQuiz() {
+    quizEl.style = "display: none;";
+    endPage.style = "display: block;";
+    //store inputted name in local and recall it in highscore
+}
+
+for (var i = 0; i < choiceBtns.length; i++) {
+    choiceBtns[i].addEventListener('click', checkAnswer);
+}
+
+startButton.addEventListener('click', function(event){
+    startTimer();
+    startQuiz();
+});
 
 
-
+submitBtn.addEventListener('click', function(event){
+    localStorage.setItem("name", player.value);
+})
+// main.style.display = "none;";
+// hsPage.style.display = "block;";
 
 timerEl.setAttribute('style', 'font-size: 20px; font-weight: bold; padding-top: 18px;');
 scoreEl.setAttribute('style', 'font-size: 20px; font-weight: bold; padding-top: 18px;');

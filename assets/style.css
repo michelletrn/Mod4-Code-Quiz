@@ -24,7 +24,7 @@ body {
     padding-left: 60px;
 }
 
-.main {
+#main {
     display: inline-flex;
     flex-direction: column;
     justify-content: center;
@@ -33,8 +33,8 @@ body {
 
 }
 
-#quiz {
-    display: none;
+#qPrompt {
+    text-align: center;
 }
 
 #name {
