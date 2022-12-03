@@ -21,6 +21,7 @@ var btn3 = document.querySelector("#C");
 var btn4 = document.querySelector("#D");
 var qIndex = 0; //each block in questions is a qIndex
 var timeLeft = 30; //CHANGE BACK TO 30
+var score = 0;
 
 function startTimer() {
     
@@ -29,9 +30,7 @@ function startTimer() {
         timerEl.textContent = timeLeft;
 
         if (timeLeft >= 0) {
-            // if(isCorrect && timerEl > 0);
-            //next question function
-            //score function
+            
         }
         if (timeLeft === 0) {
             clearInterval(timeInterval);
@@ -56,10 +55,6 @@ function renderQuestion(qIndex) {
     document.getElementById("choice-btns").style.flexDirection = "column";
 }
 
-// function nextQuestion() {
-    
-// }
-
 let questions = [
     {
         question: "Which of the following is NOT a JavaScript data type?",
@@ -77,6 +72,10 @@ let questions = [
         question: "What data type is enclosed in double or single quotes?",
         choices: ["a. string","b. array","c. list","d. function"],
         correct: "a"
+    },{
+        question: "Where would you insert the JavaScript script tag in your HTML document?",
+        choices: ["a. top of the body element","b. above the body element closing tag","c. within the footer element","d. it does not matter"],
+        correct: "b"
     }
 ];
 
@@ -89,21 +88,29 @@ function checkAnswer(event) {
     }, 1500)
 
     if (event.target.value === questions[qIndex].correct) {
-        result.textContent = "Correct!";
-        console.log(event.target.value);
-        console.log(questions[qIndex].correct);
+        result.textContent = "Correct! +10 points!";
+        score = score + 10;
+        scoreEl.textContent = score;
         qIndex += 1;
         renderQuestion(qIndex);
     } else {
-        result.textContent = "Incorrect!";
+        result.textContent = "Incorrect! -5 seconds!";
         timeLeft = timeLeft - 5;
         qIndex += 1;
         renderQuestion(qIndex);
     }
+
     if (qIndex < questions.length) {
         renderQuestion(qIndex);
+    } else {
+        endQuiz();//need to figure out how to end when all questions answered
     }
     
+}
+
+let playerStats = {
+    name: player.value,
+    playerscore: score.value
 }
 
 function endQuiz() {
@@ -123,7 +130,7 @@ startButton.addEventListener('click', function(event){
 
 
 submitBtn.addEventListener('click', function(event){
-    localStorage.setItem("name", player.value);
+    localStorage.setItem("player stats", playerStats);
 })
 // main.style.display = "none;";
 // hsPage.style.display = "block;";
