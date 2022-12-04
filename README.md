@@ -14,7 +14,11 @@ Github: https://github.com/michelletrn/Mod4-Code-Quiz.git
 Deployed URL: https://michelletrn.github.io/Mod4-Code-Quiz/
 
 Here is a screenshot of my application:
-![application screenshot]()
+![application screenshot start page](./assets/start.png)
+![application screenshot quiz page](./assets/quiz.png)
+![application screenshot submit name page](./assets/submitname.png)
+![application screenshot highscores page](./assets/highscores.png)
+
 
 ## Credits
 
@@ -23,10 +27,3 @@ N/A
 ## License
 
 N/A
-
-notes:
-time start: 60s
-time decreases by 5/wrong answer
-score increases by 10 pts/correct answer
-game ends when timer = 0 or all questions were answered
-record name and leaderboard

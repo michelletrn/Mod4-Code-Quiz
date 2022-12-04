@@ -13,6 +13,10 @@ var endPage = document.querySelector("#end-page");
 var player = document.querySelector("#player-name");
 var submitBtn = document.querySelector("#submit");
 var hsPage = document.querySelector("#highscore-page");
+var finalScore = document.querySelector("#final-score");
+var hsBtn = document.querySelector("#highscores-button")
+var clearbtn = document.querySelector("#clear-highscores");
+
 
 var choiceBtns = document.querySelectorAll(".choice")
 var btn1 = document.querySelector("#A");
@@ -23,39 +27,7 @@ var qIndex = 0; //each block in questions is a qIndex
 var timeLeft = 30; //CHANGE BACK TO 30
 var score = 0;
 
-function startTimer() {
-    
-    var timeInterval = setInterval(function(){
-        timeLeft--;
-        timerEl.textContent = timeLeft;
-
-        if (timeLeft >= 0) {
-            
-        }
-        if (timeLeft === 0) {
-            clearInterval(timeInterval);
-            endQuiz(); //end quiz function
-        }
-    }, 1000);
-}
-
-function startQuiz() {
-    main.style.display = "none";
-    renderQuestion(qIndex);
-}
-
-function renderQuestion(qIndex) {
-    qPrompt.textContent = questions[qIndex].question;
-    btn1.textContent = questions[qIndex].choices[0];
-    btn2.textContent = questions[qIndex].choices[1];
-    btn3.textContent = questions[qIndex].choices[2];
-    btn4.textContent = questions[qIndex].choices[3];
-
-    document.getElementById("choice-btns").style.display = "flex";
-    document.getElementById("choice-btns").style.flexDirection = "column";
-}
-
-let questions = [
+let questions = [ //list of questions
     {
         question: "Which of the following is NOT a JavaScript data type?",
         choices: ["a. string", "b. integer", "c. array", "d. flexbox"],
@@ -79,8 +51,44 @@ let questions = [
     }
 ];
 
+function startTimer() { //starts the timer, timer starts at 30 seconds, checks if the conditions are met and then calls the desired function
+    
+    var timeInterval = setInterval(function(){
+        timeLeft--;
+        timerEl.textContent = timeLeft;
 
-function checkAnswer(event) {
+        if (timeLeft === 0) {
+            clearInterval(timeInterval);
+            endQuiz(); 
+        }
+
+        if (qIndex < questions.length) {
+            renderQuestion(qIndex);
+        } else {
+            clearInterval(timeInterval);
+            // timerEl.textContent = 0; //this line makes the secs left to 0
+            endQuiz();//so now it ends but it stills show how many secs were left
+        }
+    }, 1000);
+}
+
+function startQuiz() { //hides the starting page contents and calls for the questions to be displayed
+    main.style.display = "none";
+    renderQuestion(qIndex);
+}
+
+function renderQuestion(qIndex) { //adds text content to display the question and the answer choices
+    qPrompt.textContent = questions[qIndex].question;
+    btn1.textContent = questions[qIndex].choices[0];
+    btn2.textContent = questions[qIndex].choices[1];
+    btn3.textContent = questions[qIndex].choices[2];
+    btn4.textContent = questions[qIndex].choices[3];
+
+    document.getElementById("choice-btns").style.display = "flex";
+    document.getElementById("choice-btns").style.flexDirection = "column";
+}
+
+function checkAnswer(event) { //checks if the value of the button selected matches the correct answer in the questions list, displays correct/incorrect and subtracts time or adds points as appropriate
     event.preventDefault();
     result.style = "display: block; text-align: center";
     setInterval(function() {
@@ -100,40 +108,67 @@ function checkAnswer(event) {
         renderQuestion(qIndex);
     }
 
-    if (qIndex < questions.length) {
-        renderQuestion(qIndex);
-    } else {
-        endQuiz();//need to figure out how to end when all questions answered
-    }
-    
 }
 
-let playerStats = {
-    name: player.value,
-    playerscore: score.value
-}
-
-function endQuiz() {
+function endQuiz() { //is called when the conditions of the quiz ending meets, it displays the end page where the player enters their name and their final score is displayed
     quizEl.style = "display: none;";
     endPage.style = "display: block;";
-    //store inputted name in local and recall it in highscore
+    finalScore.textContent += timeLeft + score;
 }
 
+function highscores() { //high scores page
+    main.style = 'display: none;';
+    hsPage.style = 'display: block';
+    endPage.style = 'display:none';
+    document.body.children[0].style.display = 'none';
+
+    
+    var hsList = [];
+    //for loop runs through each item in the local storage and adds it to the hsList
+    for (var i = 0; i < localStorage.length; i++) {
+        hsList.push(
+            localStorage.getItem(localStorage.key(i)) + ' - ' + localStorage.key(i)
+            );
+    }
+    // sorts the scores in descending order
+    hsList.sort().reverse();
+
+
+    for (var i = 0; i < hsList.length; i++) {
+        var hsStats = document.createElement('li');
+        hsStats.textContent = hsList[i];
+        document.body.children[5].children[0].children[1].append(hsStats);
+    }
+}
+//for loop that checks if the choice btn pressed was the correct answer
 for (var i = 0; i < choiceBtns.length; i++) {
     choiceBtns[i].addEventListener('click', checkAnswer);
 }
-
+//starts the quiz
 startButton.addEventListener('click', function(event){
     startTimer();
     startQuiz();
 });
 
-
+//when submit btn is pressed, the player name and final score is saved in local storage
 submitBtn.addEventListener('click', function(event){
-    localStorage.setItem("player stats", playerStats);
+    event.preventDefault();
+    localStorage.setItem(player.value, finalScore.textContent); //final score will not store
+    highscores();
 })
-// main.style.display = "none;";
-// hsPage.style.display = "block;";
+// btn that displays the hs page
+hsBtn.addEventListener('click', function() {
+    main.style = 'display: none;';
+    hsPage.style = 'display: block';
+    highscores();
+})
+//clears the local storage
+clearbtn.addEventListener('click', function() {
+    localStorage.clear(); //go back and clear the name of the list
+    window.location.reload();
+})
+
+
 
 timerEl.setAttribute('style', 'font-size: 20px; font-weight: bold; padding-top: 18px;');
 scoreEl.setAttribute('style', 'font-size: 20px; font-weight: bold; padding-top: 18px;');
